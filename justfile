@@ -169,11 +169,11 @@ deploy-contracts network:
             ADDR=$(cast wallet address $PRIVATE_KEY)
             echo "Deployer address: $ADDR"
             
-            BALANCE=$(cast balance $ADDR)
-            echo "Deployer balance: $BALANCE"
-            
             # Use RPC_URL if set, otherwise fall back to L1_RPC
             RPC_URL_TO_USE="${RPC_URL:-$L1_RPC}"
+            
+            BALANCE=$(cast balance $ADDR --rpc-url $RPC_URL_TO_USE)
+            echo "Deployer balance: $BALANCE"
             
             echo "Deploying FDG contracts to {{network}}..."
             echo "Using RPC URL: $RPC_URL_TO_USE"
@@ -206,155 +206,6 @@ deploy-contracts network:
         exit 1
     fi
 
-# Deploy Rollup and Bridges together
-deploy-rollup-and-bridges network:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    
-    # Validate network argument
-    if [ "{{network}}" != "sepolia" ] && [ "{{network}}" != "mainnet" ]; then
-        echo "Error: network must be either 'sepolia' or 'mainnet'"
-        exit 1
-    fi
-    
-    # Load environment variables from contracts directory based on network
-    CONTRACTS_ENV_FILE="contracts/.env.{{network}}"
-    if [ -f "$CONTRACTS_ENV_FILE" ]; then
-        echo "Loading config from $CONTRACTS_ENV_FILE"
-        # Use a subshell to ensure clean environment
-        (
-            source "$CONTRACTS_ENV_FILE"
-            
-            # Check if required environment variables are set
-            if [ -z "${RPC_URL:-}" ] && [ -z "${L1_RPC:-}" ]; then
-                echo "Error: Neither RPC_URL nor L1_RPC environment variable is set in $CONTRACTS_ENV_FILE"
-                exit 1
-            fi
-            
-            if [ -z "${PRIVATE_KEY:-}" ]; then
-                echo "Error: PRIVATE_KEY environment variable is not set in $CONTRACTS_ENV_FILE"
-                exit 1
-            fi
-            
-            ADDR=$(cast wallet address $PRIVATE_KEY)
-            echo "Deployer address: $ADDR"
-            
-            BALANCE=$(cast balance $ADDR)
-            echo "Deployer balance: $BALANCE"
-            
-            # Use RPC_URL if set, otherwise fall back to L1_RPC
-            RPC_URL_TO_USE="${RPC_URL:-$L1_RPC}"
-            
-            echo "Deploying Rollup and Bridges to {{network}}..."
-            echo "Using RPC URL: $RPC_URL_TO_USE"
-            
-            # Change to contracts directory
-            cd contracts
-            
-            # Install dependencies
-            echo "Installing forge dependencies..."
-            forge install
-            
-            # Build contracts
-            echo "Building contracts..."
-            forge build
-            
-            # Run deployment script
-            echo "Running deployment script..."
-            forge script script/DeployRollupAndBridges.s.sol \
-                --broadcast \
-                --slow \
-                --verify \
-                --gas-estimate-multiplier 300 \
-                --rpc-url "$RPC_URL_TO_USE" \
-                --private-key "$PRIVATE_KEY"
-            
-            echo "Rollup and Bridges deployment to {{network}} complete!"
-        )
-    else
-        echo "Error: $CONTRACTS_ENV_FILE not found"
-        echo "Please create the network-specific config file for {{network}}"
-        exit 1
-    fi
-
-# Deploy Bridges only
-deploy-bridges network:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    
-    # Validate network argument
-    if [ "{{network}}" != "sepolia" ] && [ "{{network}}" != "mainnet" ]; then
-        echo "Error: network must be either 'sepolia' or 'mainnet'"
-        exit 1
-    fi
-    
-    # Load environment variables from contracts directory based on network
-    CONTRACTS_ENV_FILE="contracts/.env.{{network}}"
-    if [ -f "$CONTRACTS_ENV_FILE" ]; then
-        echo "Loading config from $CONTRACTS_ENV_FILE"
-        # Use a subshell to ensure clean environment
-        (
-            source "$CONTRACTS_ENV_FILE"
-            
-            # Check if required environment variables are set
-            if [ -z "${RPC_URL:-}" ] && [ -z "${L1_RPC:-}" ]; then
-                echo "Error: Neither RPC_URL nor L1_RPC environment variable is set in $CONTRACTS_ENV_FILE"
-                exit 1
-            fi
-            
-            if [ -z "${PRIVATE_KEY:-}" ]; then
-                echo "Error: PRIVATE_KEY environment variable is not set in $CONTRACTS_ENV_FILE"
-                exit 1
-            fi
-            
-            if [ -z "${ROLLUP_ADDRESS:-}" ]; then
-                echo "Error: ROLLUP_ADDRESS environment variable is not set in $CONTRACTS_ENV_FILE"
-                echo "This is required when deploying bridges only"
-                exit 1
-            fi
-            
-            ADDR=$(cast wallet address $PRIVATE_KEY)
-            echo "Deployer address: $ADDR"
-            
-            BALANCE=$(cast balance $ADDR)
-            echo "Deployer balance: $BALANCE"
-            
-            # Use RPC_URL if set, otherwise fall back to L1_RPC
-            RPC_URL_TO_USE="${RPC_URL:-$L1_RPC}"
-            
-            echo "Deploying Bridges to {{network}}..."
-            echo "Using RPC URL: $RPC_URL_TO_USE"
-            echo "Using Rollup at: $ROLLUP_ADDRESS"
-            
-            # Change to contracts directory
-            cd contracts
-            
-            # Install dependencies
-            echo "Installing forge dependencies..."
-            forge install
-            
-            # Build contracts
-            echo "Building contracts..."
-            forge build
-            
-            # Run deployment script
-            echo "Running deployment script..."
-            ROLLUP_ADDRESS=$ROLLUP_ADDRESS forge script script/DeployBridges.s.sol \
-                --broadcast \
-                --slow \
-                --verify \
-                --gas-estimate-multiplier 300 \
-                --rpc-url "$RPC_URL_TO_USE" \
-                --private-key "$PRIVATE_KEY"
-            
-            echo "Bridges deployment to {{network}} complete!"
-        )
-    else
-        echo "Error: $CONTRACTS_ENV_FILE not found"
-        echo "Please create the network-specific config file for {{network}}"
-        exit 1
-    fi
-    
 # Deploy mock verifier
 deploy-mock-verifier env_file=".env":
     #!/usr/bin/env bash

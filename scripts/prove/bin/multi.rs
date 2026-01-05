@@ -7,9 +7,9 @@ use op_succinct_host_utils::{
 use op_succinct_proof_utils::{get_range_elf_embedded, initialize_host};
 use op_succinct_prove::{execute_multi, DEFAULT_RANGE};
 use op_succinct_scripts::HostExecutorArgs;
-use sp1_sdk::{utils, ProverClient};
-use std::{fs, sync::Arc, time::Instant};
-use tracing::debug;
+use sp1_sdk::{utils, ProverClient, SP1ProofMode, SP1ProofWithPublicValues, SP1_CIRCUIT_VERSION};
+use std::{env, fs, sync::Arc, time::Instant};
+use tracing::{debug, info};
 
 /// Execute the OP Succinct program for multiple blocks.
 #[tokio::main]
@@ -44,8 +44,27 @@ async fn main() -> Result<()> {
     if args.prove {
         // If the prove flag is set, generate a proof.
         let (pk, _) = prover.setup(get_range_elf_embedded());
-        // Generate proofs in compressed mode for aggregation verification.
-        let proof = prover.prove(&pk, &sp1_stdin).compressed().run().unwrap();
+
+        // Check if mock mode is enabled
+        let mock_mode: bool = env::var("MOCK_MODE")
+            .unwrap_or("false".to_string())
+            .parse()
+            .unwrap_or(false);
+
+        let proof = if mock_mode {
+            info!("Using mock mode for proof generation");
+            // Execute to get public values, then create mock proof
+            let (public_values, _) = prover.execute(get_range_elf_embedded(), &sp1_stdin).run()?;
+            SP1ProofWithPublicValues::create_mock_proof(
+                &pk,
+                public_values,
+                SP1ProofMode::Compressed,
+                SP1_CIRCUIT_VERSION,
+            )
+        } else {
+            // Generate real proofs in compressed mode for aggregation verification.
+            prover.prove(&pk, &sp1_stdin).compressed().run().unwrap()
+        };
 
         // Create a proof directory for the chain ID if it doesn't exist.
         let proof_dir = format!("data/{}/proofs", data_fetcher.get_l2_chain_id().await.unwrap());
@@ -56,6 +75,8 @@ async fn main() -> Result<()> {
         proof
             .save(format!("{proof_dir}/{l2_start_block}-{l2_end_block}.bin"))
             .expect("saving proof failed");
+
+        info!("Proof saved to {proof_dir}/{l2_start_block}-{l2_end_block}.bin");
     } else {
         let l2_chain_id = data_fetcher.get_l2_chain_id().await?;
 

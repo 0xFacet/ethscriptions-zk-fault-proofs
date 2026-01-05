@@ -1,46 +1,50 @@
 [patch."https://github.com/op-rs/kona"]
-kona-mpt = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-derive = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-driver = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-preimage = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-executor = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-proof = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-client = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-host = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-providers-alloy = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-rpc = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-protocol = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-registry = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-genesis = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-std-fpvm = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-std-fpvm-proc = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-cli = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-comp = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-hardforks = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-interop = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-macros = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-p2p = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-proof-interop = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-serde = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
-kona-engine = { git = "https://github.com/0xFacet/facet-kona", tag= "v2.0.0-facet" }
+# Kona crates -> ethscriptions-kona
+kona-mpt = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-derive = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-driver = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-preimage = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-executor = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-proof = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-client = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-host = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-providers-alloy = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-rpc = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-protocol = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-registry = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-genesis = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-std-fpvm = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-std-fpvm-proc = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-cli = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-comp = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-hardforks = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-interop = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-macros = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-p2p = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-proof-interop = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-serde = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+kona-engine = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
 
 [patch.crates-io]
-op-alloy-network = { git = "https://github.com/0xFacet/facet-op-alloy", tag = "v0.15.4-facet" }
-op-alloy-provider = { git = "https://github.com/0xFacet/facet-op-alloy", tag = "v0.15.4-facet" }
-op-alloy-consensus = { git = "https://github.com/0xFacet/facet-op-alloy", tag = "v0.15.4-facet" }
-op-alloy-rpc-types = { git = "https://github.com/0xFacet/facet-op-alloy", tag = "v0.15.4-facet" }
-op-alloy-rpc-jsonrpsee = { git = "https://github.com/0xFacet/facet-op-alloy", tag = "v0.15.4-facet" }
-op-alloy-rpc-types-engine = { git = "https://github.com/0xFacet/facet-op-alloy", tag = "v0.15.4-facet" }
-revm = { git = "https://github.com/0xFacet/facet-revm", tag = "v3.1.0-facet" }
-revm-bytecode = { git = "https://github.com/0xFacet/facet-revm", tag = "v3.1.0-facet" }
-revm-context = { git = "https://github.com/0xFacet/facet-revm", tag = "v3.1.0-facet" }
-revm-context-interface = { git = "https://github.com/0xFacet/facet-revm", tag = "v3.1.0-facet" }
-revm-database = { git = "https://github.com/0xFacet/facet-revm", tag = "v3.1.0-facet" }
-revm-database-interface = { git = "https://github.com/0xFacet/facet-revm", tag = "v3.1.0-facet" }
-revm-handler = { git = "https://github.com/0xFacet/facet-revm", tag = "v3.1.0-facet" }
-revm-inspector = { git = "https://github.com/0xFacet/facet-revm", tag = "v3.1.0-facet" }
-revm-interpreter = { git = "https://github.com/0xFacet/facet-revm", tag = "v3.1.0-facet" }
-revm-precompile = { git = "https://github.com/0xFacet/facet-revm", tag = "v3.1.0-facet" }
-revm-primitives = { git = "https://github.com/0xFacet/facet-revm", tag = "v3.1.0-facet" }
-revm-state = { git = "https://github.com/0xFacet/facet-revm", tag = "v3.1.0-facet" }
-op-revm = { git = "https://github.com/0xFacet/facet-revm", tag = "v3.1.0-facet" }
+# op-alloy -> ethscriptions-kona vendored (0x7d deposit support)
+op-alloy-network = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+op-alloy-provider = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+op-alloy-consensus = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+op-alloy-rpc-types = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+op-alloy-rpc-jsonrpsee = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+op-alloy-rpc-types-engine = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+
+# REVM -> ethscriptions-kona vendored
+revm = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+revm-bytecode = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+revm-context = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+revm-context-interface = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+revm-database = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+revm-database-interface = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+revm-handler = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+revm-inspector = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+revm-interpreter = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+revm-precompile = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+revm-primitives = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+revm-state = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }
+op-revm = { git = "https://github.com/ethscriptions-protocol/ethscriptions-kona", tag = "v2.0.0-ethscriptions" }

@@ -1,4 +1,4 @@
-use std::sync::{Arc, Mutex};
+use std::{env, sync::{Arc, Mutex, OnceLock}};
 
 use async_trait::async_trait;
 use kona_preimage::{
@@ -6,6 +6,17 @@ use kona_preimage::{
 };
 use kona_proof::FlushableCache;
 use op_succinct_client_utils::witness::preimage_store::PreimageStore;
+
+/// Get the hint delay in milliseconds from HINT_DELAY_MS env var (default: 0)
+fn get_hint_delay_ms() -> u64 {
+    static HINT_DELAY: OnceLock<u64> = OnceLock::new();
+    *HINT_DELAY.get_or_init(|| {
+        env::var("HINT_DELAY_MS")
+            .unwrap_or_else(|_| "0".to_string())
+            .parse()
+            .unwrap_or(0)
+    })
+}
 
 #[derive(Clone, Debug)]
 pub struct PreimageWitnessCollector<P: CommsClient + FlushableCache + Send + Sync + Clone> {
@@ -37,6 +48,11 @@ where
     P: CommsClient + FlushableCache + Send + Sync + Clone,
 {
     async fn write(&self, hint: &str) -> PreimageOracleResult<()> {
+        // Rate limit L1 hints to avoid 429 errors on L1 RPC
+        let delay = get_hint_delay_ms();
+        if delay > 0 && hint.starts_with("l1-") {
+            tokio::time::sleep(std::time::Duration::from_millis(delay)).await;
+        }
         self.preimage_oracle.write(hint).await
     }
 }

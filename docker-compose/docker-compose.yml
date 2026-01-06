@@ -1,0 +1,67 @@
+services:
+  op-node:
+    build:
+      context: ../../ethscriptions-optimism
+      dockerfile: Dockerfile.web
+    image: ethscriptions-op-node:latest
+    container_name: ethscriptions-op-node
+    restart: unless-stopped
+    environment:
+      - L1_NETWORK=mainnet
+      - L2_NETWORK=ethscriptions
+      - OP_NODE_L1_ETH_RPC=${L1_RPC}
+      - OP_NODE_L2_ENGINE_RPC=${L2_RPC}
+      - OP_NODE_LOG_LEVEL=${OP_NODE_LOG_LEVEL:-info}
+    networks:
+      - ethscriptions
+
+  proposer:
+    build:
+      context: ..
+      dockerfile: fault-proof/Dockerfile.proposer
+    image: ethscriptions-proposer:latest
+    container_name: ethscriptions-proposer
+    restart: unless-stopped
+    environment:
+      - L1_RPC=${L1_RPC}
+      - L2_RPC=${L2_RPC}
+      - L2_NODE_RPC=http://op-node:9545
+      - L1_BEACON_RPC=${L1_BEACON_RPC}
+      - ROLLUP_ADDRESS=${ROLLUP_ADDRESS}
+      - PRIVATE_KEY=${PRIVATE_KEY}
+      - NETWORK_PRIVATE_KEY=${NETWORK_PRIVATE_KEY}
+      - RANGE_PROOF_INTERVAL=${RANGE_PROOF_INTERVAL:-512}
+      - SAFE_DB_FALLBACK=${SAFE_DB_FALLBACK:-true}
+      - MOCK_MODE=${MOCK_MODE:-false}
+      - SP1_CYCLE_LIMIT=${SP1_CYCLE_LIMIT:-100000000000}
+      - SP1_TIMEOUT=${SP1_TIMEOUT:-48000}
+      - HINT_DELAY_MS=${HINT_DELAY_MS:-100}
+    depends_on:
+      - op-node
+    networks:
+      - ethscriptions
+
+  challenger:
+    build:
+      context: ..
+      dockerfile: fault-proof/Dockerfile.challenger
+    image: ethscriptions-challenger:latest
+    container_name: ethscriptions-challenger
+    restart: unless-stopped
+    environment:
+      - L1_RPC=${L1_RPC}
+      - L2_RPC=${L2_RPC}
+      - L2_NODE_RPC=http://op-node:9545
+      - L1_BEACON_RPC=${L1_BEACON_RPC}
+      - ROLLUP_ADDRESS=${ROLLUP_ADDRESS}
+      - PRIVATE_KEY=${PRIVATE_KEY}
+      - FETCH_INTERVAL=${FETCH_INTERVAL:-30}
+      - ENABLE_PROPOSAL_RESOLUTION=${ENABLE_PROPOSAL_RESOLUTION:-true}
+    depends_on:
+      - op-node
+    networks:
+      - ethscriptions
+
+networks:
+  ethscriptions:
+    driver: bridge

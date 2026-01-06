@@ -390,11 +390,11 @@ add-config config_name env_file=".env" *features='':
         --private-key $PRIVATE_KEY \
         --broadcast
 
-# Remove an OpSuccinctConfig from the L2 Output Oracle  
+# Remove an OpSuccinctConfig from the L2 Output Oracle
 remove-config config_name env_file=".env":
     #!/usr/bin/env bash
     set -euo pipefail
-    
+
     # Load environment variables
     source {{env_file}}
 
@@ -403,7 +403,7 @@ remove-config config_name env_file=".env":
 
     # forge install
     forge install
-    
+
     # Run the forge script to remove config
     env L2OO_ADDRESS="$L2OO_ADDRESS" \
         ${EXECUTE_UPGRADE_CALL:+EXECUTE_UPGRADE_CALL="$EXECUTE_UPGRADE_CALL"} \
@@ -414,3 +414,30 @@ remove-config config_name env_file=".env":
         --rpc-url $L1_RPC \
         --private-key $PRIVATE_KEY \
         --broadcast
+
+# ===== UNIFIED DOCKER COMPOSE =====
+
+# Start unified docker stack (op-node, proposer, challenger)
+start-unified env_file="docker-compose/.env":
+    docker compose -f docker-compose/docker-compose.yml --env-file {{env_file}} up -d
+
+# Stop unified docker stack
+stop-unified:
+    docker compose -f docker-compose/docker-compose.yml down
+
+# View logs from unified stack
+logs-unified service="":
+    #!/usr/bin/env bash
+    if [ -z "{{service}}" ]; then
+        docker compose -f docker-compose/docker-compose.yml logs -f
+    else
+        docker compose -f docker-compose/docker-compose.yml logs -f {{service}}
+    fi
+
+# Build unified docker images
+build-unified:
+    docker compose -f docker-compose/docker-compose.yml build
+
+# Restart a specific service in the unified stack
+restart-unified service:
+    docker compose -f docker-compose/docker-compose.yml restart {{service}}

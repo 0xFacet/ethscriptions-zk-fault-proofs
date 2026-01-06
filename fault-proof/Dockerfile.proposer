@@ -36,8 +36,9 @@ FROM ubuntu:24.04
 
 WORKDIR /app
 
-# Install only necessary runtime dependencies
-RUN apt-get update && apt-get install -y \
+# Install only necessary runtime dependencies (with retry for mirror sync issues)
+RUN for i in 1 2 3; do apt-get update && break || sleep 5; done && \
+    apt-get install -y --no-install-recommends \
     curl \
     libssl-dev \
     ca-certificates \

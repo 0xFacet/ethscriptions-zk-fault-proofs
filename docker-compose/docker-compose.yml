@@ -1,9 +1,10 @@
 services:
   op-node:
-    build:
-      context: ../../ethscriptions-optimism
-      dockerfile: Dockerfile.web
-    image: ethscriptions-op-node:latest
+    # build:
+    #   context: ../../ethscriptions-optimism
+    #   dockerfile: Dockerfile.web
+    image: ghcr.io/0xfacet/ethscriptions-optimism:1.0.1
+    platform: linux/amd64
     container_name: ethscriptions-op-node
     restart: unless-stopped
     environment:
@@ -16,10 +17,11 @@ services:
       - ethscriptions
 
   proposer:
-    build:
-      context: ..
-      dockerfile: fault-proof/Dockerfile.proposer
-    image: ethscriptions-proposer:latest
+    # build:
+    #   context: ..
+    #   dockerfile: fault-proof/Dockerfile.proposer
+    image: ghcr.io/0xfacet/ethscriptions-zk-fault-proofs/lite-proposer:v1.0.1
+    platform: linux/amd64
     container_name: ethscriptions-proposer
     restart: unless-stopped
     environment:
@@ -42,10 +44,11 @@ services:
       - ethscriptions
 
   challenger:
-    build:
-      context: ..
-      dockerfile: fault-proof/Dockerfile.challenger
-    image: ethscriptions-challenger:latest
+    # build:
+    #   context: ..
+    #   dockerfile: fault-proof/Dockerfile.challenger
+    image: ghcr.io/0xfacet/ethscriptions-zk-fault-proofs/lite-challenger:v1.0.1
+    platform: linux/amd64
     container_name: ethscriptions-challenger
     restart: unless-stopped
     environment:

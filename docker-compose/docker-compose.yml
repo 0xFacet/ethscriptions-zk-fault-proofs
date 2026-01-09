@@ -20,7 +20,7 @@ services:
     # build:
     #   context: ..
     #   dockerfile: fault-proof/Dockerfile.proposer
-    image: ghcr.io/0xfacet/ethscriptions-zk-fault-proofs/lite-proposer:v1.0.1
+    image: ghcr.io/0xfacet/ethscriptions-zk-fault-proofs/lite-proposer:v1.0.2
     platform: linux/amd64
     container_name: ethscriptions-proposer
     restart: unless-stopped
@@ -47,7 +47,7 @@ services:
     # build:
     #   context: ..
     #   dockerfile: fault-proof/Dockerfile.challenger
-    image: ghcr.io/0xfacet/ethscriptions-zk-fault-proofs/lite-challenger:v1.0.1
+    image: ghcr.io/0xfacet/ethscriptions-zk-fault-proofs/lite-challenger:v1.0.2
     platform: linux/amd64
     container_name: ethscriptions-challenger
     restart: unless-stopped
